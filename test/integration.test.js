@@ -570,7 +570,7 @@ describe('integration', function () {
             .expect(404, done);
     });
 
-    it('returns 404 with standard JSON body for uknown URL', function (done) {
+    it('returns 404 with standard JSON body for unknown URL', function (done) {
         json('/unknown-url')
             .expect(404)
             .end(expectErrorResponseContaining({status: 404}, done));
@@ -610,25 +610,73 @@ describe('integration', function () {
             });
     });
 
+    describe('cancelable', function () {
+
+        it('should work with future and without cancel', function (done) {
+            var method = setupAndGivenSharedStaticMethod(
+                function cancelable(context, cb) {
+                    var d = context.defer(cancel);
+                    d.done(cb);
+
+                    var h = setTimeout(function () {
+                        d.resolve(null, 'hello');
+                    }, 500);
+
+                    function cancel() {
+                        clearTimeout(h);
+                    }
+                },
+                {
+                    accepts: { arg: 'context', type: 'object', source: 'context' },
+                    returns: { arg: 'msg', type: 'string' }
+                }
+            );
+            json(method.url)
+                .expect(200, { msg: 'hello' }, done);
+        });
+
+        it('should cancel when request abort', function (done) {
+
+            var method = setupAndGivenSharedStaticMethod(
+                function cancelable(context, cb) {
+                    var d = context.defer(cancel);
+                    d.done(cb);
+
+                    var h = setTimeout(function () {
+                        t.fail();
+                        d.resolve(null, 'hello');
+                    }, 200);
+
+                    function cancel() {
+                        clearTimeout(h);
+                        done();
+                    }
+                },
+                {
+                    accepts: { arg: 'context', type: 'object', source: 'context' },
+                    returns: { arg: 'msg', type: 'string' }
+                }
+            );
+
+            var req = json(method.url).end(t.fail);
+            setTimeout(function () { req.abort(); }, 100);
+        });
+    });
+
 });
 
 
 function createSapp(fns, cb) {
     var sapp = sira();
+    sapp.set('remoting', {json: {limit: '1kb'}});
     if (fns) {
         fns = Array.isArray(fns) ? fns : [fns];
         fns.forEach(function (fn) {
             fn(sapp);
         })
     }
-
     sapp.phase(sira.boot.database());
-    sapp.phase(function () {
-        sapp.use(sapp.dispatcher);
-    });
-    sapp.boot({
-        remoting: {json: {limit: '1kb'}}
-    }, function (err) {
+    sapp.boot(function (err) {
         cb(err, sapp);
     });
     return sapp;
@@ -650,8 +698,8 @@ function givenSharedStaticMethod(sapp, fn, config) {
 
     return {
         name: 'testClass.testMethod',
-        url: '/testClass/testMethod',
-        classUrl: '/testClass'
+        url: '/test-class/testMethod',
+        classUrl: '/test-class'
     };
 }
 
