@@ -94,45 +94,6 @@ describe('integration', function () {
                 .expect(200, { msg: 'hello' }, done);
         });
 
-        it('should allow arguments in the path', function (done) {
-            var method = setupAndGivenSharedStaticMethod(
-                function bar(a, b, cb) {
-                    cb(null, a + b);
-                },
-                {
-                    accepts: [
-                        { arg: 'b', type: 'number' },
-                        { arg: 'a', type: 'number', source: 'path' }
-                    ],
-                    returns: { arg: 'n', type: 'number' },
-                    http: { path: '/:a' }
-                }
-            );
-
-            json(method.classUrl + '/1?b=2')
-                .expect({ n: 3 }, done);
-        });
-
-
-        it('should allow arguments in the query', function (done) {
-            var method = setupAndGivenSharedStaticMethod(
-                function bar(a, b, cb) {
-                    cb(null, a + b);
-                },
-                {
-                    accepts: [
-                        { arg: 'b', type: 'number' },
-                        { arg: 'a', type: 'number', source: 'query' }
-                    ],
-                    returns: { arg: 'n', type: 'number' },
-                    http: { path: '/' }
-                }
-            );
-
-            json(method.classUrl + '/?a=1&b=2')
-                .expect({ n: 3 }, done);
-        });
-
         it('should allow custom argument functions', function (done) {
             var method = setupAndGivenSharedStaticMethod(
                 function bar(a, b, cb) {
@@ -142,7 +103,7 @@ describe('integration', function () {
                     accepts: [
                         { arg: 'b', type: 'number' },
                         { arg: 'a', type: 'number', source: function (ctx) {
-                            return ctx.request.query.a;
+                            return ctx.request.params.a;
                         } }
                     ],
                     returns: { arg: 'n', type: 'number' },
