@@ -1,21 +1,21 @@
 {
-  "name": "sira-connect-rest",
-  "version": "0.0.1",
+  "name": "sira-rest",
+  "version": "0.0.2",
   "description": "Sira express rest middleware",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taoyuan/sira-connect-rest.git"
+    "url": "https://github.com/taoyuan/sira-rest.git"
   },
   "author": "Tao Yuan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/taoyuan/sira-connect-rest/issues"
+    "url": "https://github.com/taoyuan/sira-rest/issues"
   },
-  "homepage": "https://github.com/taoyuan/sira-connect-rest",
+  "homepage": "https://github.com/taoyuan/sira-rest",
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.20.1",

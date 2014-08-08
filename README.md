@@ -1,4 +1,4 @@
-sira-connect-rest
+sira-rest
 =========
 
 Sira express rest middleware
