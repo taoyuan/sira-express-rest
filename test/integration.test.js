@@ -566,7 +566,7 @@ describe('integration', function () {
                 for (var prop in expected) {
                     t.deepEqual(result.body.error[prop], expected[prop]);
                 }
-                t.include(result.body.error.stack, __filename);
+//                t.include(result.body.error.stack, __filename);
                 done();
             });
     });
