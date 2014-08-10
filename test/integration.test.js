@@ -103,7 +103,7 @@ describe('integration', function () {
                     accepts: [
                         { arg: 'b', type: 'number' },
                         { arg: 'a', type: 'number', source: function (ctx) {
-                            return ctx.request.params.a;
+                            return ctx.request.param('a');
                         } }
                     ],
                     returns: { arg: 'n', type: 'number' },
