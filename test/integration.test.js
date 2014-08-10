@@ -31,7 +31,7 @@ describe('integration', function () {
         return createSapp(fns, function (err, _sapp) {
             if (err) throw err;
             sapp = _sapp;
-            handler = rest(_sapp.remotes, _sapp);
+            handler = rest(_sapp);
         });
     }
 
