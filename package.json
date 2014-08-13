@@ -1,5 +1,5 @@
 {
-  "name": "sira-rest",
+  "name": "sira-express-rest",
   "version": "0.0.2",
   "description": "Sira express rest middleware",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taoyuan/sira-rest.git"
+    "url": "https://github.com/taoyuan/sira-express-rest.git"
   },
   "author": "Tao Yuan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/taoyuan/sira-rest/issues"
+    "url": "https://github.com/taoyuan/sira-express-rest/issues"
   },
-  "homepage": "https://github.com/taoyuan/sira-rest",
+  "homepage": "https://github.com/taoyuan/sira-express-rest",
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.20.1",
