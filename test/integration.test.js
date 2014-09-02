@@ -4,6 +4,7 @@ var express = require('express');
 var request = require('supertest');
 var sira = require('sira');
 var inherits = require('util').inherits;
+var cancelify = require('cancelify');
 
 var rest = require('../lib/rest');
 
@@ -576,16 +577,13 @@ describe('integration', function () {
         it('should work with future and without cancel', function (done) {
             var method = setupAndGivenSharedStaticMethod(
                 function cancelable(context, cb) {
-                    var d = context.defer(cancel);
-                    d.done(cb);
+                    setTimeout(function () {
+                        cb(null, 'hello');
+                    }, 200);
 
-                    var h = setTimeout(function () {
-                        d.resolve(null, 'hello');
-                    }, 500);
-
-                    function cancel() {
-                        clearTimeout(h);
-                    }
+                    context.possible.canceled(function () {
+                        t.fail();
+                    });
                 },
                 {
                     accepts: { arg: 'context', type: 'object', source: 'context' },
@@ -599,22 +597,18 @@ describe('integration', function () {
         it('should cancel when request abort', function (done) {
 
             var method = setupAndGivenSharedStaticMethod(
-                function cancelable(context, cb) {
-                    var d = context.defer(cancel);
-                    d.done(cb);
-
+                function cancelable(future, cb) {
                     var h = setTimeout(function () {
                         t.fail();
-                        d.resolve(null, 'hello');
                     }, 200);
 
-                    function cancel() {
+                    future.canceled(function () {
                         clearTimeout(h);
                         done();
-                    }
+                    });
                 },
                 {
-                    accepts: { arg: 'context', type: 'object', source: 'context' },
+                    accepts: { arg: 'future', type: 'object', source: 'future' },
                     returns: { arg: 'msg', type: 'string' }
                 }
             );
