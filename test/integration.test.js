@@ -576,17 +576,17 @@ describe('integration', function () {
 
         it('should work with future and without cancel', function (done) {
             var method = setupAndGivenSharedStaticMethod(
-                function cancelable(context, cb) {
+                function cancelable(deferred, cb) {
                     setTimeout(function () {
                         cb(null, 'hello');
                     }, 200);
 
-                    context.possible.canceled(function () {
+                    deferred.canceled(function () {
                         t.fail();
                     });
                 },
                 {
-                    accepts: { arg: 'context', type: 'object', source: 'context' },
+                    accepts: { arg: 'deferred', type: 'object', source: 'deferred' },
                     returns: { arg: 'msg', type: 'string' }
                 }
             );
@@ -597,18 +597,18 @@ describe('integration', function () {
         it('should cancel when request abort', function (done) {
 
             var method = setupAndGivenSharedStaticMethod(
-                function cancelable(future, cb) {
+                function cancelable(deferred, cb) {
                     var h = setTimeout(function () {
                         t.fail();
                     }, 200);
 
-                    future.canceled(function () {
+                    deferred.canceled(function () {
                         clearTimeout(h);
                         done();
                     });
                 },
                 {
-                    accepts: { arg: 'future', type: 'object', source: 'future' },
+                    accepts: { arg: 'deferred', type: 'object', source: 'deferred' },
                     returns: { arg: 'msg', type: 'string' }
                 }
             );
