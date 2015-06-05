@@ -1,6 +1,6 @@
 {
   "name": "sira-express-rest",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sira express rest middleware",
   "main": "index.js",
   "scripts": {
@@ -17,19 +17,19 @@
   },
   "homepage": "https://github.com/taoyuan/sira-express-rest",
   "devDependencies": {
-    "chai": "^1.9.1",
-    "mocha": "^1.20.1",
-    "strong-remoting": "^1.5.2",
-    "supertest": "^0.13.0"
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5",
+    "strong-remoting": "^2.18.1",
+    "supertest": "^1.0.1"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "body-parser": "^1.5.0",
-    "cancelify": "^0.1.3",
-    "cors": "^2.4.1",
-    "debug": "^1.0.4",
-    "express": "^4.6.1",
-    "lodash": "^2.4.1",
+    "async": "^1.2.0",
+    "body-parser": "^1.12.4",
+    "cancelify": "^0.1.5",
+    "cors": "^2.7.1",
+    "debug": "^2.2.0",
+    "express": "^4.12.4",
+    "lodash": "^3.9.3",
     "sira": "taoyuan/sira"
   }
 }

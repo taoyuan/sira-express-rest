@@ -330,7 +330,7 @@ describe('integration', function () {
             );
 
             json(method.url + '?a=foo')
-                .expect(500, done);
+                .expect(400, done);
         });
 
 
